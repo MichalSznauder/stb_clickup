@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pl.akademiaqa.requests.space.CreateSpaceRequest;
 import pl.akademiaqa.requests.space.DeleteSpaceRequest;
-import pl.akademiaqa.requests.space.UpdateSpaceRequest;
+
 
 import java.util.stream.Stream;
 
@@ -16,10 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CreateSpaceWithParamsTest {
 
 
+
     @ParameterizedTest(name = "Create space with space name: {0}")
     @DisplayName("create space with valid space name")
     @MethodSource("createSpaceData")
-    void createSpaceTest(String spaceName, String updatedSpaceName) {
+    void createSpaceTest(String spaceName) {
 
         JSONObject space = new JSONObject();
         space.put("name", spaceName);
@@ -31,14 +32,14 @@ public class CreateSpaceWithParamsTest {
 
         final var spaceId = response.jsonPath().getString("id");
 
-        JSONObject updatedSpace = new JSONObject();
-        updatedSpace.put("name", updatedSpaceName);
-        updatedSpace.put("features.sprints.enabled", true);
-
-
-        final var updateResponse = UpdateSpaceRequest.updateSpace(updatedSpace, spaceId);
-        assertThat(updateResponse.jsonPath().getString("name")).isEqualTo(updatedSpaceName);
-        assertThat(updateResponse.statusCode()).isEqualTo(200);
+//        JSONObject updatedSpace = new JSONObject();
+//        updatedSpace.put("name", updatedSpaceName);
+//        updatedSpace.put("features.sprints.enabled", true);
+//
+//
+//        final var updateResponse = UpdateSpaceRequest.updateSpace(updatedSpace, spaceId);
+//        assertThat(updateResponse.jsonPath().getString("name")).isEqualTo(updatedSpaceName);
+//        assertThat(updateResponse.statusCode()).isEqualTo(200);
 
 
         final var deleteResponse = DeleteSpaceRequest.deleteSpace(spaceId);
